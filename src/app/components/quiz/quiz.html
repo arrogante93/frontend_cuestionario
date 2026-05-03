@@ -1,0 +1,39 @@
+<div class="container" *ngIf="quiz">
+  <h1>{{ quiz.title }}</h1>
+
+  <div *ngFor="let question of quiz.questions; let i = index" class="question-card">
+    <h3>{{ i + 1 }}. {{ question.question }}</h3>
+    
+    <div class="options">
+      <div *ngFor="let option of question.options" class="option">
+        <label>
+          <input 
+            type="radio" 
+            [name]="'question-' + i" 
+            [(ngModel)]="userAnswers[i]" 
+            [value]="option"
+            [disabled]="evaluated">
+          {{ option }}
+        </label>
+      </div>
+    </div>
+
+    <div *ngIf="evaluated" class="result-feedback" [ngClass]="results[i] ? 'correct' : 'incorrect'">
+      {{ results[i] ? '✅ Correcto' : '❌ Incorrecto. La respuesta era: ' + question.answer }}
+    </div>
+  </div>
+
+  <div class="actions">
+    <button (click)="evaluate()" *ngIf="!evaluated" class="btn btn-primary">Evaluar</button>
+    <button (click)="resetQuiz()" *ngIf="evaluated" class="btn btn-secondary">Reiniciar Cuestionario</button>
+  </div>
+</div>
+
+<div *ngIf="!quiz && !errorMessage" class="loading">
+  Cargando cuestionario...
+</div>
+
+<div *ngIf="errorMessage" class="error-container">
+  <div class="error-message">{{ errorMessage }}</div>
+  <button (click)="ngOnInit()" class="btn btn-primary">Reintentar</button>
+</div>
