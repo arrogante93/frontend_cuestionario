@@ -1,9 +1,9 @@
 services:
-  - type: static
+  - type: web
     name: frontend-cuestionario
-    env: static
+    runtime: static
     buildCommand: npm run build
-    publishPath: dist/frontend_cuestionario/browser
+    staticPublishPath: dist/frontend_cuestionario/browser
     routes:
       - type: rewrite
         source: /*
